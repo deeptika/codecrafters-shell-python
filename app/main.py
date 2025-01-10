@@ -8,6 +8,8 @@ def main():
     # Wait for user input
     command = input()
     while command:
+        if command == "exit 0":
+            sys.exit()
         print(f"{command}: command not found")
         main()
 
