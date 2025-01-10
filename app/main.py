@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess as sp
 
-builtin_commands = ["echo", "exit", "type"]
+builtin_commands = ["echo", "exit", "type", "pwd"]
 PATH = os.environ.get('PATH')
 
 
@@ -26,6 +26,9 @@ def main():
 
         if command == 'echo':
             print(*args)
+
+        elif command == 'pwd':
+            print(os.getcwd())
 
         elif command == 'type':
             cmd = args[0]
