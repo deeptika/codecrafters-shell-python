@@ -21,7 +21,7 @@ def main():
             case ["type", *args]:
                 cmd = args[0]
                 cmd_path = None
-                paths = PATH.SPLIT(":")
+                paths = PATH.split(":")
                 for path in paths:
                     if os.path.isfile(f"{path}/{cmd}"):
                         cmd_path = f"{path}/{cmd}"
