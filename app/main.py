@@ -12,7 +12,8 @@ def main():
             break
         if command.split()[0] == "echo":
             print(f"{command[5:]}")
-        print(f"{command}: command not found")
+        else:
+            print(f"{command}: command not found")
         main()
 
 
