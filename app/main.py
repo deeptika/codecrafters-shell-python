@@ -42,7 +42,7 @@ def main():
                 cmd_path = find_path(cmd)
                 if cmd_path:
                     # execute cmd and " ".join(args)
-                    print(sp.run([cmd_path, *args[1:]], capture_output=True, text=True).stdout)
+                    print(sp.run(args=args, capture_output=True, text=True).stdout)
                 else:
                     print(f"{command}: command not found")
 
