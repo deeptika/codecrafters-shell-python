@@ -9,6 +9,7 @@ def main():
     command = input()
     while command:
         print(f"{command}: command not found")
+        sys.stdout.write("$ ")
         command = input()
 
 
