@@ -9,7 +9,7 @@ def main():
     command = input()
     while command:
         if command == "exit 0":
-            break
+            sys.exit(0)
         if command.split()[0] == "echo":
             print(f"{command[5:]}")
         else:
