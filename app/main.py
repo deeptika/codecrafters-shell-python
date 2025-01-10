@@ -20,34 +20,27 @@ def main():
     while True:
         sys.stdout.write("$ ")
 
-        command = input()
+        command, *args = input().split(" ")
 
-        match command.split():
-            case ["exit", "0"]:
-                sys.exit(0)
+        if command == 'exit' and args[0] == '1':
+            sys.exit(0)
 
-            case ["echo", *args]:
-                print(*args)
+        if command == 'echo':
+            print(*args)
 
-            case ["type", *args]:
-                cmd = args[0]
-                cmd_path = find_path(cmd)
-                if cmd in builtin_commands:
-                    print(f"{cmd} is a shell builtin")
-                elif cmd_path:
-                    print(f"{cmd} is {cmd_path}")
-                else:
-                    print(f"{cmd}: not found")
+        elif command == 'type':
+            cmd = args[0]
+            if cmd in builtin_commands:
+                print(f"{cmd} is a shell builtin")
+            elif find_path(cmd):
+                print(f"{find_path(cmd)} is a shell builtin")
+            else:
+                print(f"{cmd}: not found")
 
-            case [cmd, *args]:
-                cmd_path = find_path(cmd)
-                if cmd_path:
-                    # execute cmd and " ".join(args)
-                    sp.run(args=[find_path(cmd), *args])
-                else:
-                    print(f"{command}: command not found")
-
-            case _:
+        else:
+            if find_path(command):
+                sp.run(args=[find_path(command), *args])
+            else:
                 print(f"{command}: command not found")
 
 
