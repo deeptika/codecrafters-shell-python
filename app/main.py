@@ -1,18 +1,20 @@
 import sys
 import os
 import subprocess as sp
+from typing import Optional
 
 builtin_commands = ["echo", "exit", "type"]
 PATH = os.environ.get('PATH')
 
 
-def find_path(cmd):
-    cmd_path = None
-    paths = PATH.split(":")
-    for path in paths:
-        if os.path.isfile(f"{path}/{cmd}"):
-            cmd_path = f"{path}/{cmd}"
-    return cmd_path
+def find_path(command) -> Optional[str]:
+    path = os.environ.get("PATH", "")
+
+    for directory in path.split(":"):
+        file_path = os.path.join(directory, command)
+
+        if os.path.isfile(file_path) and os.access(file_path, os.X_OK):
+            return file_path
 
 
 def main():
@@ -33,7 +35,7 @@ def main():
             if cmd in builtin_commands:
                 print(f"{cmd} is a shell builtin")
             elif find_path(cmd):
-                print(f"{find_path(cmd)} is a shell builtin")
+                print(f"{cmd} is {find_path(cmd)}")
             else:
                 print(f"{cmd}: not found")
 
