@@ -1,5 +1,6 @@
 import sys
 
+builtin_commands = ["echo", "exit", "type"]
 
 def main():
     # Uncomment this block to pass the first stage
@@ -13,6 +14,9 @@ def main():
                 sys.exit(0)
             case ["echo", *args]:
                 print(*args)
+            case ["type", *args]:
+                if args in builtin_commands:
+                    print(f"{args} is a shell builtin")
             case _:
                 print(f"{command}: command not found")
 
