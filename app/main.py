@@ -15,8 +15,11 @@ def main():
             case ["echo", *args]:
                 print(*args)
             case ["type", *args]:
-                if args in builtin_commands:
-                    print(f"{args} is a shell builtin")
+                cmd = args[0]
+                if cmd in builtin_commands:
+                    print(f"{cmd} is a shell builtin")
+                else:
+                    print(f"{command}: command not found")
             case _:
                 print(f"{command}: command not found")
 
