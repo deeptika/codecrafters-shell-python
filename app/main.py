@@ -5,6 +5,7 @@ import subprocess as sp
 builtin_commands = ["echo", "exit", "type"]
 PATH = os.environ.get('PATH')
 
+
 def find_path(cmd):
     cmd_path = None
     paths = PATH.split(":")
@@ -12,6 +13,7 @@ def find_path(cmd):
         if os.path.isfile(f"{path}/{cmd}"):
             cmd_path = f"{path}/{cmd}"
     return cmd_path
+
 
 def main():
     # Uncomment this block to pass the first stage
@@ -37,12 +39,11 @@ def main():
                 else:
                     print(f"{cmd}: not found")
 
-            case [*args]:
-                cmd = args[0]
+            case [cmd, *args]:
                 cmd_path = find_path(cmd)
                 if cmd_path:
                     # execute cmd and " ".join(args)
-                    print(sp.run(args=args).stdout)
+                    sp.run(args=[find_path(cmd), *args])
                 else:
                     print(f"{command}: command not found")
 
