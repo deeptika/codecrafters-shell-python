@@ -4,6 +4,7 @@ import subprocess as sp
 
 builtin_commands = ["echo", "exit", "type", "pwd", "cd"]
 PATH = os.environ.get('PATH')
+HOME = os.environ.get('HOME')
 
 
 def find_path(cmd):
@@ -32,7 +33,10 @@ def main():
 
         elif command == 'cd':
             try:
-                os.chdir(*args)
+                if args[0] == '~':
+                    os.chdir(HOME)
+                else:
+                    os.chdir(*args)
             except FileNotFoundError:
                 print(f"{command}: {args[0]}: No such file or directory")
 
