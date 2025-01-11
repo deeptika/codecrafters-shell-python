@@ -2,7 +2,7 @@ import sys
 import os
 import subprocess as sp
 
-builtin_commands = ["echo", "exit", "type", "pwd"]
+builtin_commands = ["echo", "exit", "type", "pwd", "cd"]
 PATH = os.environ.get('PATH')
 
 
@@ -29,6 +29,12 @@ def main():
 
         elif command == 'pwd':
             print(os.getcwd())
+
+        elif command == 'cd':
+            try:
+                os.chdir(*args)
+            except FileNotFoundError:
+                print(f"{command}: {args[0]}: No such file or directory")
 
         elif command == 'type':
             cmd = args[0]
