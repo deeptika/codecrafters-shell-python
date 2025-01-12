@@ -1,8 +1,9 @@
 import sys
 import os
 import subprocess as sp
+import shlex
 
-builtin_commands = ["echo", "exit", "type", "pwd", "cd"]
+BUILTINS = ["echo", "exit", "type", "pwd", "cd"]
 PATH = os.environ.get('PATH')
 HOME = os.environ.get('HOME')
 
@@ -16,17 +17,29 @@ def find_path(cmd):
     return cmd_path
 
 
+def process_command(input_txt):
+    _ = input_txt.split("'")
+    return [x for x in _ if x.strip() != '']
+
+
 def main():
     while True:
         sys.stdout.write("$ ")
 
-        command, *args = input().split(" ")
+        command_txt = input()
+        command, *args = command_txt.split(" ")
 
         if command == 'exit' and args[0] == '0':
             sys.exit(0)
 
         if command == 'echo':
-            print(*args)
+            echo_txt = command_txt[5:]
+            if echo_txt.startswith("'") and echo_txt.endswith("'"):
+                echo_txt = echo_txt[1:-1]
+                echo_txt = "".join(echo_txt.split("'"))
+                print(echo_txt)
+            else:
+                print(" ".join(shlex.split(echo_txt)))
 
         elif command == 'pwd':
             print(os.getcwd())
@@ -42,7 +55,7 @@ def main():
 
         elif command == 'type':
             cmd = args[0]
-            if cmd in builtin_commands:
+            if cmd in BUILTINS:
                 print(f"{cmd} is a shell builtin")
             elif find_path(cmd):
                 print(f"{cmd} is {find_path(cmd)}")
@@ -51,7 +64,8 @@ def main():
 
         else:
             if find_path(command):
-                sp.run(args=[command, *args])
+                processed_args = process_command(command_txt[len(command) + 1:])
+                sp.run(args=[command, *processed_args])
             else:
                 print(f"{command}: command not found")
 
